@@ -107,9 +107,7 @@ input{
   width: 360px;
   height: 540px;
   background-color: lightskyblue;
-  border: none;
-  border-radius: 5px;
-  margin: auto;
+ margin-top: 10px;
 }
 .rmsc.multi-select input{
   width: 12px;
