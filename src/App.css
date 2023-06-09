@@ -82,12 +82,13 @@ margin-left: -10px;
 }
 .t{
 margin-top: 5px;
-margin-left: -5px;
+margin-left: -160px;
 }
 .trash{
-margin: auto;
-margin-top: 327px;
-} 
+  margin-top: 343px;
+  margin-left: 44%;
+}
+
 @media screen and (max-width: 390px){
   body{
     margin: 0;
@@ -103,9 +104,9 @@ margin-top: 327px;
   position: absolute;
   display: flex;
   flex-direction: row;
-  gap: 200px;
-  top: 485px;
-  left: 38%;
+  gap: 190px;
+  top: 400px;
+  left: 14%;
 }
 i{
 font-size: 48px;
@@ -172,11 +173,9 @@ i p.r{
 }
 .t{
   margin-top: 5px;
-  margin-left: -5px;
+  margin-left: -160px;
 }
-i.trash{
-  /* margin: auto; */
-  margin-top: 327px;
-  margin-left: 50%;
+.trash{
+  margin-top: 258px;
 } 
 }
