@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "../App";
 import { MultiSelect } from "react-multi-select-component";
 import "../index.css";
-import Select from 'react-select';
 
 const Converter = () => {
   // setData оставляем для возможного изменения данных в JSON при необходимости
@@ -17,27 +16,24 @@ const Converter = () => {
   // Здесь хранятся данные о результатах обработки для одного действия (по одному элементу в каждом поле)
   const [quantity, setQuantity] = useState(1)
   const [result, setResult] = useState(0);
-  // Здесь хранятся данные о результатах обработки данных когда в одном из полей одно значение, в во втором 
+  // Здесь хранятся сведения о результатах обработки данных когда в одном из полей одно значение, в во втором 
   // длина полученного массива меньше длины массива, переданного в селектор
   let [storage, setStorage] = useState([])
-  // Здесь хранятся данные о результатах обработки данных когда в одном из полей одно или несколько значений,
+  // Здесь хранятся сведения о результатах обработки данных когда в одном из полей одно или несколько значений,
   // но меньше длины массива, переданного в селектор, а в во втором длина полученного массива равна длине массива,
   //  переданного в селектор. Параметры состояния изменяемы поэтому оно не может быть const.
-  let [counter, setCounter] = useState(0)
-  // Здесь хранятся данные о результатах обработки данных когда значения обоих полей больше 1, и длина 
+  let [counter1, setCounter1] = useState(0)
+  let [counter2, setCounter2] = useState(0)
+  let [counter3, setCounter3] = useState(0)
+  let [counter4, setCounter4] = useState(0)
+  // Здесь хранятся сведения о результатах обработки данных когда значения обоих полей больше 1, и длина 
   // длина полученного массива меньше длины массива, переданного в селектор. Параметры состояния изменяемы поэтому оно не может быть const.
   const [elements, setElements] = useState([])
-  // Здесь хранятся данные о полях ввода-вывода данных, полученных из селектора и переданных в обработчик
-  const [cross1, setCross1] = useState()
-  const [cross2, setCross2] = useState()
-  // const [isDisabled1, setIsDisabled1] = useState(true)
-  // const [isDisabled2, setIsDisabled2] = useState(true)
-  // const [isDisabled, setIsDisabled] = useState(false)
-  const [multi, setMulti] = useState(false)
-const [disabled, setDisabled] = useState(false)
-  const [isChoose, setIsChoose] = useState(cross1)
-  const [remove, setRemove] = useState(false)
-  const [f1, setF1] = useState([])
+  // Здесь хранятся сведения о полях ввода-вывода данных, полученных из селектора и переданных в обработчик
+  const [cross1, setCross1] = useState(0)
+  const [cross2, setCross2] = useState(0)
+  const [disabled, setDisabled] = useState(false)
+ 
 
   //Здесь мы передаем именно объекты
 
@@ -58,14 +54,13 @@ const [disabled, setDisabled] = useState(false)
 
       if (!item.includes(label)) {
         item.push(label);
-        dataList.push({ label, value, disabled});
+        dataList.push({ label, value, disabled });
       }
     })
     setOptions(dataList);
     setItems(item);
-    
-  }, [disabled])
 
+  }, [disabled])
 
   //Калькулятор
   useEffect(() => {
@@ -110,119 +105,130 @@ const [disabled, setDisabled] = useState(false)
       setCross2(storage)
       setDisabled(true)
     }
+    //Если вo втором поле выбран 1 элемент, а в первом несколько но меньше всех имеющихся в селекторе элементов
     else if (found2.length == 1 && (found1.length > 1 && found1.length < items.length)) {
       if (item1 == item2 || val == undefined) {
         res = (quantity * 1)
         setStorage(storage += res)
         setCross2(quantity)
+
       }
       else {
         res = quantity / val
         setStorage(storage += res)
       }
-      setCross2(quantity)
-      setCross1(storage)
+      setCross2(storage)
+      console.log(cross2);
+      setCross1(quantity)
+      console.log(cross1);
       setDisabled(true)
     }
+
+    // Эта проверка отключена
     //Если в первом поле больше одного элемента, и во втором больше одного элемента но меньше всех имеющихся в селекторе элементов
 
-    else if (found1.length > 1 && found2.length > 1 && (found2.length < items.length)) {
+    else if ((found1.length > 1 && found1.length < items.length) && (found2.length > 1 && found2.length < items.length)) {
       elements.push(item2);
       setElements(elements)
       elements.map((i) => {
-        let val3 = obj[item1 + '-' + i]
-        let res3 = 0;
-        let count1 = 0;
-        if (item1 == i || val3 == undefined) {
-          setQuantity(quantity)
-          setCounter(count1)
-          res3 = (quantity * 1)
-          setCounter(counter += res3)
-          setCross1(quantity)
-        }
-        else {
-          res3 = quantity / val3
-          setCounter(counter += res3)
-        }
-        setCross2(counter)
-        setStorage(counter);
+      let val3 = obj[item1 + '-' + i]
+      let res3 = 0;
+      let count3 = 0;
+      if (item1 == i || val3 == undefined) {
+        setQuantity(quantity)
+        setCounter3(count3)
+        res3 = (quantity * 1)
+        setCounter3(counter3 += res3)
+        setCross1(quantity)
+      }
+      else {
+        res3 = quantity / val3
+        setCounter3(counter3 += res3)
+      }
+        setCross2(counter3)
+        setStorage(counter3);
       })
     }
+
+    //Если в первом поле больше одного элемента, и во втором больше одного элемента но меньше всех имеющихся в селекторе элементов
+
+    else if ((found2.length > 1  && found2.length < items.length) && (found1.length > 1 && found1.length < items.length)) {
+      elements.push(item1);
+      setElements(elements)
+      elements.map((i) => {
+      let val4 = obj[item1 + '-' + i]
+      let res4 = 0;
+      let count4 = 0;
+      if (item1 == i || val4 == undefined) {
+        setQuantity(quantity)
+        setCounter4(count4)
+        res4 = (quantity * 1)
+        setCounter4(counter4 += res4)
+        setCross1(quantity)
+      }
+      else {
+        res4 = quantity / val4
+        setCounter4(counter4 += res4)
+      }
+        setCross2(counter4)
+        setStorage(counter4);
+      })
+    }
+    // Предыдущая проверка отключена за отсутствием необходимости по причине отсутствия постановки задачи
+    // и решения использовать блокировку выборора элементов селектора
+
     //Если в первом поле выбран 1 элемент, а во втором поле выбраны все элементы
 
-    else if ((found1.length == 1 || found1.length > 1) && found2.length == items.length) {
+    // else if ((found1.length == 1 || found1.length > 1) && found2.length == items.length) {
+      else if (found1.length == 1 && found2.length == items.length) {
       items.map((i) => {
-        let val1 = obj[item1 + '-' + i]
-        let res1 = 0;
-        let count = 0;
-        if (item1 == i || val1 == undefined) {
+      let val1 = obj[item1 + '-' + i]
+      let res1 = 0;
+      let count1 = 0;
+      setCounter1(count1)
+      if (item1 == i || val1 == undefined) {
           setQuantity(quantity)
-          setCounter(count)
           res1 = (quantity * 1)
-          setCounter(counter += res1)
+          setCounter1(counter1 += res1)
           setCross1(quantity)
-        }
-        else {
+      }
+      else {
           res1 = quantity / val1
-          setCounter(counter += res1)
-        }
-         setStorage(counter);
-        setCross2(counter)
-       
+          setCounter1(counter1 += res1)
+      }
+        setStorage(counter1);
+        setCross2(counter1)
       })
+      setDisabled(true)
     }
 
     //Если во втором поле выбран 1 элемент, а в первом поле выбраны все элементы
 
-    else if ((found2.length == 1 || found2.length > 1) && found1.length == items.length) {
-      items.map((i) => {
-        let val2 = obj[item2 + '-' + i]
-        let res1 = 0;
-        let count = 0;
-        setStorage(0)
-        if (item2 == i || val2 == undefined) {
-          setQuantity(quantity)
-          setCounter(count)
-          res1 = (quantity * 1)
-          setCounter(counter += res1)
-          setCross1(quantity)
-        }
-        else {
-          res1 = quantity / val2
-          setCounter(counter += res1)
-        }
-         setStorage(counter);
-        setCross2(counter)
-       
-      })
-    }
-
     // else if ((found2.length == 1 || found2.length > 1) && found1.length == items.length) {
-    //   items.map((i) => {
-    //     let val2 = obj[item2 + '-' + i]
-    //     let res2 = 0;
-    //     let count2 = 0;
-    //     if (item2 == i || val2 == undefined) {
-    //       setQuantity(quantity)
-    //       setCounter(count2)
-    //       res2 = (quantity * 1)
-    //       console.log(res2);
-    //       setCounter(counter += res2)
-    //       console.log(counter);
-    //       setCross2(quantity)
-    //     }
-    //     else {
-    //       res2 = quantity / val2
-    //       console.log(res2);
-    //       setCounter(counter += res2)
-    //     }
-    //     setStorage(counter);
-    //     setCross1(counter)
-    //   })
-    // }
+      else if (found2.length == 1 && found1.length == items.length) {
+      items.map((i) => {
+      let val2 = obj[item2 + '-' + i]
+      let res2 = 0;
+      let count2 = 0;
+      if (item2 == i || val2 == undefined) {
+        setQuantity(quantity)
+        setCounter2(count2)
+        res2 = (quantity * 1)
+        setCounter2(counter2 += res2)
+        setCross1(quantity)
+      }
+      else {
+        res2 = quantity / val2
+        setCounter2(counter2 += res2)
+      }
+        setStorage(counter2);
+        setCross2(counter2)
+      })
+      setDisabled(true)
+    }
   }, [selected1, selected2, quantity, result])
 
-    //Обработчики значений если в каждом поле выбрано по одному элементу
+  //Обработчики значений если в каждом поле выбрано по одному элементу
 
   // Обработчик изменения значения в первом поле
   const handleChange1 = (e) => {
@@ -247,51 +253,40 @@ const [disabled, setDisabled] = useState(false)
   // когда происходит очистка полей ввода нанных из селектора, но решил так, для наглядности
   const removeHandler = () => {
     setDisabled(false)
-    setCross1('')
-    setCross2('')
+    setCross1(0)
+    setCross2(0)
     setStorage(0)
+    setCounter1(0)
+    setCounter2(0)
+    setCounter3(0)
+    setCounter4(0)
   }
 
   const binStyle = {
     cursor: 'pointer'
   }
-  const dataStyle = {
-    color: 'white',
-    fontSize: '24px'
-  }
-
-
-
-  // const styles = {
-  //   width: '310px',
-  //   height: '500px',
-  //   border: '1.5px none',
-  //   borderRadius: '5px',
-  //    backgroundColor: 'orange'
-  // }
   return (
-
     <div className="selector">
       <p>Select currency</p>
       <div className='data1'>
-          <input type="number" placeholder='Quantity' onChange={handleChange2} value={cross2} />
-        <MultiSelect 
+        <input type="number" placeholder='Quantity' onChange={handleChange2} value={cross2} />
+        <MultiSelect
           options={options}
           value={selected1}
           onChange={setSelected1}
           labelledBy="Select"
         />
       </div>
-        <div className='data2'>
-          <input type="number" placeholder='Quantity' onChange={handleChange1} value={cross1} />
-          <MultiSelect 
-            options={options}
-            value={selected2}
-            onChange={setSelected2}
-            labelledBy="Select"
-          />
-        </div>
-      <div className='trash'>{storage>0 ? <i className="bi bi-trash3-fill" style={binStyle} onClick={removeHandler}><p className='t'>Clear all</p></i>:''}</div>
+      <div className='data2'>
+        <input type="number" placeholder='Quantity' onChange={handleChange1} value={cross1} />
+        <MultiSelect
+          options={options}
+          value={selected2}
+          onChange={setSelected2}
+          labelledBy="Select"
+        />
+      </div>
+      <div className='trash'>{storage > 0 ? <i className="bi bi-trash3-fill" style={binStyle} onClick={removeHandler}><p className='t'>Clear all</p></i> : ''}</div>
     </div>
   );
 };

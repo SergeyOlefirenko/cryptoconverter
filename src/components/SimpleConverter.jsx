@@ -3,7 +3,6 @@ import { AppContext } from "../App";
 import "../index.css";
 import './Simple.css';
 import Select from 'react-select';
-import background from '../technology.jpg'
 
 const SimpleConverter = () => {
   // setData оставляем для возможного изменения данных в JSON при необходимости
@@ -21,7 +20,7 @@ const SimpleConverter = () => {
   const [quantity, setQuantity] = useState(0)
   const [result, setResult] = useState(0);
 
-  // Здесь хранятся данные о полях ввода-вывода данных, полученных из селектора и переданных в обработчик
+  // Здесь хранятся сведения о полях ввода-вывода данных, полученных из селектора и переданных в обработчик
   const [cross1, setCross1] = useState()
   const [cross2, setCross2] = useState()
   // const [multi, setMulti] = useState(false)
